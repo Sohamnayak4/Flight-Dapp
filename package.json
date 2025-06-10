@@ -17,7 +17,6 @@
     "@solana/web3.js": "^1.98.2",
     "@tailwindcss/vite": "^4.1.8",
     "dotenv": "^16.5.0",
-    "node-fetch": "^2.6.9",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "tailwindcss": "^4.1.8"

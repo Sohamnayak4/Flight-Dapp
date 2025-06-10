@@ -1,7 +1,8 @@
 export const getFlights = async (departureId, arrivalId, outboundDate, returnDate, currency = "USD") => {
   try {
-    // Create params for our proxy endpoint
+    // Create params for SerpApi
     const params = new URLSearchParams({
+      api_key: import.meta.env.VITE_SERP_API_KEY,
       engine: "google_flights",
       hl: "en", 
       gl: "us",
@@ -12,9 +13,15 @@ export const getFlights = async (departureId, arrivalId, outboundDate, returnDat
       currency: currency
     });
 
-    // Call our proxy endpoint instead of SerpApi directly
-    // This avoids CORS issues and keeps API keys secure
-    const response = await fetch(`/api/serp-proxy?${params.toString()}`);
+    // Use a public CORS proxy to bypass CORS restrictions
+    // Options include:
+    // - https://corsproxy.io/ 
+    // - https://cors-anywhere.herokuapp.com/ (requires activation)
+    // - https://api.allorigins.win/raw?url= 
+    const serpApiUrl = `https://serpapi.com/search.json?${params.toString()}`;
+    const corsProxyUrl = `https://corsproxy.io/?${encodeURIComponent(serpApiUrl)}`;
+    
+    const response = await fetch(corsProxyUrl);
     
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
