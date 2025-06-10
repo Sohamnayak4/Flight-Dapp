@@ -1,7 +1,7 @@
 export const getFlights = async (departureId, arrivalId, outboundDate, returnDate, currency = "USD") => {
   try {
+    // Create params for our proxy endpoint
     const params = new URLSearchParams({
-      api_key: import.meta.env.VITE_SERP_API_KEY,
       engine: "google_flights",
       hl: "en", 
       gl: "us",
@@ -12,7 +12,9 @@ export const getFlights = async (departureId, arrivalId, outboundDate, returnDat
       currency: currency
     });
 
-    const response = await fetch(`https://serpapi.com/search.json?${params.toString()}`);
+    // Call our proxy endpoint instead of SerpApi directly
+    // This avoids CORS issues and keeps API keys secure
+    const response = await fetch(`/api/serp-proxy?${params.toString()}`);
     
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
