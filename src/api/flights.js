@@ -7,10 +7,15 @@ export const getFlights = async (departureId, arrivalId, outboundDate, returnDat
     currency,
   });
 
-  const response = await fetch(`/api/flights?${params.toString()}`);
+  // Use absolute URL for production (Vercel) and relative URL for development
+  const baseUrl = import.meta.env.PROD 
+    ? window.location.origin 
+    : '';
+  
+  const response = await fetch(`${baseUrl}/api/flights?${params.toString()}`);
   
   if (!response.ok) {
-    const errorData = await response.json();
+    const errorData = await response.json().catch(() => ({}));
     throw new Error(errorData.error || 'Something went wrong');
   }
 

@@ -1,9 +1,9 @@
-// Using CommonJS format for better Vercel compatibility
-const dotenv = require('dotenv');
+import dotenv from 'dotenv';
 
 dotenv.config();
+console.log(process.env.VITE_SERP_API_KEY);
 
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -16,11 +16,19 @@ module.exports = async function handler(req, res) {
     return;
   }
 
-  // Only allow GET requests
-  if (req.method !== 'GET') {
-    return res.status(405).json({ error: 'Method not allowed' });
+  // Route requests based on path
+  const url = new URL(req.url, `http://${req.headers.host}`);
+  const path = url.pathname;
+
+  if (path === '/api/flights' && req.method === 'GET') {
+    return handleFlightsRequest(req, res);
   }
 
+  // Default response for unmatched routes
+  return res.status(404).json({ error: 'Not found' });
+};
+
+async function handleFlightsRequest(req, res) {
   const { departureId, arrivalId, outboundDate, returnDate, currency } = req.query;
 
   if (!departureId || !arrivalId || !outboundDate) {
