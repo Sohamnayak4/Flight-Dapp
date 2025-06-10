@@ -4,12 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"npm:server\" \"npm:dev-client\"",
-    "dev-client": "vite",
+    "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "server": "node server.js"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@solana/wallet-adapter-base": "^0.9.26",
@@ -18,10 +16,7 @@
     "@solana/wallet-adapter-wallets": "^0.19.36",
     "@solana/web3.js": "^1.98.2",
     "@tailwindcss/vite": "^4.1.8",
-    "concurrently": "^8.2.2",
-    "cors": "^2.8.5",
     "dotenv": "^16.5.0",
-    "express": "^4.19.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "tailwindcss": "^4.1.8"
